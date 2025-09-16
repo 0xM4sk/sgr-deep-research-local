@@ -67,6 +67,19 @@ cd sgr-streaming
 python sgr_streaming.py
 ```
 
+### One-command Local Stack (tmux)
+```bash
+# From repo root
+chmod +x start.sh stop.sh
+./start.sh   # launches Ollama, LiteLLM, Airsroute, and the app in tmux panes
+# ... to stop everything later
+./stop.sh
+```
+Defaults
+- Model: `llama3.1:8b` (override: `OLLAMA_MODEL=... ./start.sh`)
+- Ports: Ollama `11434`, LiteLLM `8000`, Airsroute `8010`
+- App env: `OPENAI_BASE_URL=http://127.0.0.1:8000/v1`, `OPENAI_API_KEY=dev-key`
+
 Tip
 - If running locally via LiteLLM + Ollama, ensure `config.yaml` points to the proxy and model alias as shown above.
 
