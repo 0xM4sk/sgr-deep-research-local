@@ -1,6 +1,6 @@
 # 🧠 SGR Deep Research - Schema-Guided Reasoning System
 
-##Fully Local (<8B) Automated research system using Schema-Guided Reasoning (SGR).
+## Fully Local (<8B) Automated research system using Schema-Guided Reasoning (SGR).
 https://github.com/user-attachments/assets/6bb32369-7089-4a54-bb35-d388ff57987c
 
 
