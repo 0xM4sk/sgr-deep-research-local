@@ -2,11 +2,10 @@
 
 https://github.com/user-attachments/assets/a5e34116-7853-43c2-ba93-2db811b8584a
 
-Automated research system using Schema-Guided Reasoning (SGR).
+Fully Local (<8B) Automated research system using Schema-Guided Reasoning (SGR).
 
 Credits
-- Originator and maintainer: 0xM4sk (https://github.com/0xM4sk)
-- Community contributions welcome via issues and PRs
+- Originator: vakovalskii/sgr-deep-research
 
 Current State (Local Stack)
 - Fully local SGR via LiteLLM + Ollama is working with sub‑8B models (e.g., llama3‑8b, gemma‑7b/9b). The streaming app guides models to produce structured JSON reliably, then renders and saves Markdown reports.
