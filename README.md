@@ -1,6 +1,8 @@
 # 🧠 SGR Deep Research - Schema-Guided Reasoning System
 
-https://github.com/user-attachments/assets/a5e34116-7853-43c2-ba93-2db811b8584a
+
+https://github.com/user-attachments/assets/6bb32369-7089-4a54-bb35-d388ff57987c
+
 
 Fully Local (<8B) Automated research system using Schema-Guided Reasoning (SGR).
 
@@ -235,9 +237,6 @@ Reports contain:
 ## 🤝 Usage
 
 Both versions are compatible and use the same configuration format. For local setups on small models (<8B), the streaming version with LiteLLM + Ollama is recommended.
-
-Removed Modules
-- The experimental `sgr_streaming_ec/` (error‑corrected streaming) module has been removed to simplify the codebase and focus on the main streaming path.
 
 ---
 
