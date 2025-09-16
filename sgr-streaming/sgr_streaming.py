@@ -805,6 +805,13 @@ class StreamingSGRAgent:
             pass
         return text
 
+    def _has_sources_section(self, md: str) -> bool:
+        """Detect if a Sources/References section already exists (EN/RU)."""
+        if not isinstance(md, str):
+            return False
+        pattern = r"(?mi)^[ \t]*(?:#{1,6}[ \t]*)?(Sources|References|Источники)[ \t]*$"
+        return re.search(pattern, md) is not None
+
     # ==============================
     # Prompt Budgeting Utilities
     # ==============================
@@ -904,7 +911,7 @@ class StreamingSGRAgent:
         numbered = re.sub(r"\[SRC(\d+)\]", repl, report_md)
 
         # Build Sources section
-        if order:
+        if order and not self._has_sources_section(numbered):
             lines = []
             for k in order:
                 n = key_to_num[k]
@@ -2260,11 +2267,11 @@ Content Length: {len(text)} characters
 
             # Convert [SRC#] → numeric [n] and append Sources if [SRC] markers present
             processed_body = self._format_markdown_report(body)
-            if "[SRC" in body:
+            if "[SRC" in processed_body:
                 processed_body = self.replace_src_with_numeric(processed_body, source_bank)
             else:
-                # If numeric citations present, append a Sources section from context
-                if "[1]" in processed_body or re.search(r"\[(\d+)\]", processed_body):
+                # If numeric citations present, append a Sources section from context (only if not present)
+                if ("[1]" in processed_body or re.search(r"\[(\d+)\]", processed_body)) and not self._has_sources_section(processed_body):
                     # Build sources from context order by assigned number
                     entries = []
                     for url, data in sorted(self.context.get("sources", {}).items(), key=lambda kv: kv[1].get("number", 0)):
@@ -2286,7 +2293,7 @@ Content Length: {len(text)} characters
             min_words_cfg = int(self.config.get('min_report_words', 300))
             min_words_forced_cfg = int(self.config.get('min_report_words_forced', 150))
             min_words = min_words_forced_cfg if forced else min_words_cfg
-            has_citation = ("[SRC" in processed_body) or (re.search(r"\[(\d+)\]", processed_body) is not None)
+            has_citation = ("[SRC" in processed_body) or (re.search(r"\[(\d+)\]", processed_body) is not None) or (re.search(r"\((\d+)\)", processed_body) is not None)
 
             word_count = len((processed_body or "").split())
             missing_citations = bool(self.context["sources"]) and not has_citation
@@ -2294,6 +2301,8 @@ Content Length: {len(text)} characters
             def append_sources_section_if_missing(md: str) -> str:
                 # If there are sources but no inline citations, at least append Sources section
                 if not self.context["sources"]:
+                    return md
+                if self._has_sources_section(md):
                     return md
                 entries = []
                 for url, data in sorted(self.context.get("sources", {}).items(), key=lambda kv: kv[1].get("number", 0)):
