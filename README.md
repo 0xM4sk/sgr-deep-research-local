@@ -2,7 +2,29 @@
 
 https://github.com/user-attachments/assets/a5e34116-7853-43c2-ba93-2db811b8584a
 
-Automated research system using Schema-Guided Reasoning (SGR). Two versions available: classic and enhanced streaming.
+Automated research system using Schema-Guided Reasoning (SGR).
+
+Credits
+- Originator and maintainer: 0xM4sk (https://github.com/0xM4sk)
+- Community contributions welcome via issues and PRs
+
+Current State (Local Stack)
+- Fully local SGR via LiteLLM + Ollama is working with sub‑8B models (e.g., llama3‑8b, gemma‑7b/9b). The streaming app guides models to produce structured JSON reliably, then renders and saves Markdown reports.
+- Airsroute gateway integration is work‑in‑progress (WIP) and optional.
+
+Local Run (LiteLLM + Ollama)
+- Install deps: `pip install -r sgr-streaming/requirements.txt`
+- Start Ollama: `ollama serve` (ensure your target model is pulled, e.g., `ollama pull llama3:8b`)
+- Start LiteLLM proxy: `litellm --config sgr-streaming/proxy/litellm_config.yaml --host 0.0.0.0 --port 8000`
+- Configure `sgr-streaming/config.yaml`:
+  - `openai.api_key: dev-key`
+  - `openai.base_url: http://localhost:8000/v1`
+  - `openai.model: sgr-gemma` (or the model alias from `litellm_config.yaml`)
+- Run streaming app: `python sgr-streaming/sgr_streaming.py`
+
+Notes
+- Strictness knobs for report saving are configurable in `execution` (e.g., `strict_report_quality`, `min_report_words`).
+- Airsroute gateway and dashboard exist but are optional; they will be documented when stable.
 
 ## 📁 Project Structure
 
@@ -43,6 +65,9 @@ python sgr-deep-research.py
 cd sgr-streaming
 python sgr_streaming.py
 ```
+
+Tip
+- If running locally via LiteLLM + Ollama, ensure `config.yaml` points to the proxy and model alias as shown above.
 
 ## 🔍 Version Comparison
 
@@ -175,6 +200,10 @@ openai:
 execution:
   max_steps: 6            # Maximum SGR steps
   reports_dir: "reports"  # Reports directory
+  # Optional report quality knobs (Streaming)
+  strict_report_quality: false
+  min_report_words: 300
+  min_report_words_forced: 150
 
 search:
   max_results: 10         # Search results count
@@ -206,7 +235,10 @@ Reports contain:
 
 ## 🤝 Usage
 
-Both versions are fully compatible and use the same configuration format. You can switch between them based on your needs.
+Both versions are compatible and use the same configuration format. For local setups on small models (<8B), the streaming version with LiteLLM + Ollama is recommended.
+
+Removed Modules
+- The experimental `sgr_streaming_ec/` (error‑corrected streaming) module has been removed to simplify the codebase and focus on the main streaming path.
 
 ---
 

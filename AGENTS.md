@@ -9,12 +9,12 @@
 - Root: `config.yaml(.example)`, `requirements.txt`, utilities, connection tests.
 - `sgr-classic/`: `sgr-deep-research.py`, scraping, version config/deps.
 - `sgr-streaming/`: `sgr_streaming.py`, schema utils, visualizer, many `test_*.py` and `reports/`.
-- `sgr_streaming_ec/`: EC loop entry `run.py`.
+- `sgr_streaming_ec/`: (Removed) experimental EC loop was removed to simplify the codebase.
 - Logs: `logs/`, `sgr-streaming/logs/`. Reports live under version dir or `reports_dir`.
 
 ## Build, Test, and Development Commands
 - Env/deps: `python -m venv .venv && source .venv/bin/activate`; `pip install -r requirements.txt`; then install per-version inside its folder.
-- Run: classic `python sgr-deep-research.py`; streaming `python sgr_streaming.py`; EC `python -m sgr_streaming_ec.run --query "Who built the first turbojet?" --max-steps 6`.
+- Run: classic `python sgr-deep-research.py`; streaming `python sgr_streaming.py`.
 - Tests: `cd sgr-streaming && pytest -q`; root: `pytest -q test_*.py`. Use `.tmp/` for scratch, then clean.
 
 ## Coding Style & Naming Conventions

@@ -199,6 +199,18 @@ Temporary Items
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+# Project artifacts and non-essentials
+logs/
+reports/
+.tmp/
+.kiro/
+AGENTS.md
+**/test_*.py
+simple_jazz_research.py
+simple_openai_test.py
+debug_sgr_config.py
+*.patch
+
 # Local History for Visual Studio Code
 .history/
 
